@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2025 at 10:27 AM
+-- Generation Time: Nov 05, 2025 at 09:39 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gown&go`
+-- Database: `gown&go2`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `feedback` (
-  `FeedbackID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  `OrderID` int(11) NOT NULL,
+  `Feedback_ID` int(11) NOT NULL,
+  `User_ID` int(11) NOT NULL,
+  `Order_ID` int(11) NOT NULL,
   `Comments` text NOT NULL,
   `Rating` enum('1','2','3','4','5') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -42,26 +42,14 @@ CREATE TABLE `feedback` (
 --
 
 CREATE TABLE `items (inventory)` (
-  `ItemID` int(11) NOT NULL,
-  `ItemName` varchar(255) NOT NULL,
-  `ItemDescription` text NOT NULL,
-  `ItemPrice` decimal(10,2) NOT NULL,
-  `ItemStatus` enum('Available','Out of Stock','Rented') NOT NULL DEFAULT 'Available'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orderdetails`
---
-
-CREATE TABLE `orderdetails` (
-  `OrderDetailID` int(11) NOT NULL,
-  `OrderID` int(11) NOT NULL,
-  `ItemID` int(11) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `RentalPeriod` int(11) NOT NULL,
-  `Price` decimal(10,2) NOT NULL
+  `Item_ID` int(11) NOT NULL,
+  `Item_Name` varchar(255) NOT NULL,
+  `Item_Description` text NOT NULL,
+  `Size` enum('XS','S','M','L','XL') NOT NULL,
+  `Category` varchar(100) NOT NULL,
+  `Rental_Price` decimal(10,2) NOT NULL,
+  `Purchase_Price` decimal(10,2) NOT NULL,
+  `Item_Status` enum('Available','Out of Stock','Rented') NOT NULL DEFAULT 'Available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -71,11 +59,27 @@ CREATE TABLE `orderdetails` (
 --
 
 CREATE TABLE `orders` (
-  `OrderID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  `OrderDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `OrderStatus` enum('Pending','Confirmed','Completed','Cancelled') NOT NULL DEFAULT 'Pending',
-  `OrderType` enum('Rental','Purchase') NOT NULL
+  `Order_ID` int(11) NOT NULL,
+  `User_ID` int(11) NOT NULL,
+  `Order_Date` datetime NOT NULL DEFAULT current_timestamp(),
+  `Order_Status` enum('Pending','Confirmed','Completed','Cancelled') NOT NULL DEFAULT 'Pending',
+  `Order_Type` enum('Rental','Purchase') NOT NULL,
+  `Rental_Start_Date` datetime DEFAULT current_timestamp(),
+  `Rental_End_Date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `Order_Item_ID` int(11) NOT NULL,
+  `Order_ID` int(11) NOT NULL,
+  `Item_ID` int(11) NOT NULL,
+  `Quantity` int(11) NOT NULL,
+  `Rental_Period` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -85,11 +89,11 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `payments` (
-  `PaymentID` int(11) NOT NULL,
-  `OrderID` int(11) NOT NULL,
-  `PaymentMethod` varchar(255) NOT NULL,
-  `PaymentStatus` enum('Pending','Paid','Failed','Refunded') NOT NULL DEFAULT 'Pending',
-  `PaymentDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `Payment_ID` int(11) NOT NULL,
+  `Order_ID` int(11) NOT NULL,
+  `Payment_Method` varchar(255) NOT NULL,
+  `Payment_Status` enum('Pending','Paid','Failed','Refunded') NOT NULL DEFAULT 'Pending',
+  `Payment_Date` datetime NOT NULL DEFAULT current_timestamp(),
   `Amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -100,11 +104,11 @@ CREATE TABLE `payments` (
 --
 
 CREATE TABLE `sales reports` (
-  `ReportID` int(11) NOT NULL,
-  `GeneratedDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `TotalOrders` int(11) NOT NULL,
-  `TotalRevenue` decimal(12,2) NOT NULL,
-  `GeneratedBy` varchar(255) NOT NULL
+  `Report_ID` int(11) NOT NULL,
+  `Generated_Date` datetime NOT NULL DEFAULT current_timestamp(),
+  `Total_Orders` int(11) NOT NULL,
+  `Total_Revenue` decimal(12,2) NOT NULL,
+  `Generated_By` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -114,12 +118,14 @@ CREATE TABLE `sales reports` (
 --
 
 CREATE TABLE `users` (
-  `UserID` int(11) NOT NULL,
-  `UserName` varchar(255) NOT NULL,
+  `User_ID` int(11) NOT NULL,
+  `User_Name` varchar(255) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Address` text NOT NULL,
-  `ContactNo` varchar(255) NOT NULL
+  `Contact_No` varchar(255) NOT NULL,
+  `Role` enum('Customer','Admin') NOT NULL,
+  `Date_Registered` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -130,37 +136,47 @@ CREATE TABLE `users` (
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`FeedbackID`);
+  ADD PRIMARY KEY (`Feedback_ID`),
+  ADD UNIQUE KEY `UserID` (`User_ID`,`Order_ID`);
 
 --
--- Indexes for table `orderdetails`
+-- Indexes for table `items (inventory)`
 --
-ALTER TABLE `orderdetails`
-  ADD PRIMARY KEY (`OrderDetailID`);
+ALTER TABLE `items (inventory)`
+  ADD PRIMARY KEY (`Item_ID`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`OrderID`);
+  ADD PRIMARY KEY (`Order_ID`),
+  ADD UNIQUE KEY `User_ID` (`User_ID`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`Order_Item_ID`),
+  ADD UNIQUE KEY `Order_Item_ID` (`Item_ID`,`Order_ID`) USING BTREE;
 
 --
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`PaymentID`);
+  ADD PRIMARY KEY (`Payment_ID`),
+  ADD UNIQUE KEY `Order_ID` (`Order_ID`);
 
 --
 -- Indexes for table `sales reports`
 --
 ALTER TABLE `sales reports`
-  ADD PRIMARY KEY (`ReportID`);
+  ADD PRIMARY KEY (`Report_ID`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`UserID`),
+  ADD PRIMARY KEY (`User_ID`),
   ADD UNIQUE KEY `Email` (`Email`);
 
 --
@@ -171,37 +187,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `FeedbackID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `orderdetails`
---
-ALTER TABLE `orderdetails`
-  MODIFY `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Feedback_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `Order_Item_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `PaymentID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Payment_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sales reports`
 --
 ALTER TABLE `sales reports`
-  MODIFY `ReportID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Report_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
