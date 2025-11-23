@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2025 at 09:48 AM
+-- Generation Time: Nov 23, 2025 at 03:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gown&go`
+-- Database: `gown_and_go`
 --
 
 -- --------------------------------------------------------
@@ -28,28 +28,29 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `feedback` (
-  `Feedback_ID` int(11) NOT NULL,
-  `User_ID` int(11) NOT NULL,
-  `Order_ID` int(11) NOT NULL,
-  `Comments` text NOT NULL,
-  `Rating` enum('1','2','3','4','5') NOT NULL
+  `feedback_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `comments` text DEFAULT NULL,
+  `rating` tinyint(3) UNSIGNED DEFAULT NULL CHECK (`rating` between 1 and 5),
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `items (inventory)`
+-- Table structure for table `items`
 --
 
-CREATE TABLE `items (inventory)` (
-  `Item_ID` int(11) NOT NULL,
-  `Item_Name` varchar(255) NOT NULL,
-  `Item_Description` text NOT NULL,
-  `Size` enum('XS','S','M','L','XL') NOT NULL,
-  `Category` varchar(100) NOT NULL,
-  `Rental_Price` decimal(10,2) NOT NULL,
-  `Purchase_Price` decimal(10,2) NOT NULL,
-  `Item_Status` enum('Available','Out of Stock','Rented') NOT NULL DEFAULT 'Available'
+CREATE TABLE `items` (
+  `item_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `status` enum('Available','Out of Stock','Rented') NOT NULL DEFAULT 'Available',
+  `stock` int(11) NOT NULL DEFAULT 1,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -59,27 +60,30 @@ CREATE TABLE `items (inventory)` (
 --
 
 CREATE TABLE `orders` (
-  `Order_ID` int(11) NOT NULL,
-  `User_ID` int(11) NOT NULL,
-  `Order_Date` datetime NOT NULL DEFAULT current_timestamp(),
-  `Order_Status` enum('Pending','Confirmed','Completed','Cancelled') NOT NULL DEFAULT 'Pending',
-  `Order_Type` enum('Rental','Purchase') NOT NULL,
-  `Rental_Start_Date` datetime DEFAULT current_timestamp(),
-  `Rental_End_Date` datetime DEFAULT current_timestamp()
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_date` datetime DEFAULT current_timestamp(),
+  `order_status` enum('Pending','Confirmed','Completed','Cancelled') NOT NULL DEFAULT 'Pending',
+  `order_type` enum('Rental','Purchase') NOT NULL,
+  `total_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `delivery_address` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_items`
+-- Table structure for table `order_details`
 --
 
-CREATE TABLE `order_items` (
-  `Order_Item_ID` int(11) NOT NULL,
-  `Order_ID` int(11) NOT NULL,
-  `Item_ID` int(11) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `Rental_Period` int(11) NOT NULL
+CREATE TABLE `order_details` (
+  `order_detail_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `order_type` enum('Rental','Purchase') NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `rental_period_days` int(11) DEFAULT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
+  `subtotal` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -89,26 +93,26 @@ CREATE TABLE `order_items` (
 --
 
 CREATE TABLE `payments` (
-  `Payment_ID` int(11) NOT NULL,
-  `Order_ID` int(11) NOT NULL,
-  `Payment_Method` varchar(255) NOT NULL,
-  `Payment_Status` enum('Pending','Paid','Failed','Refunded') NOT NULL DEFAULT 'Pending',
-  `Payment_Date` datetime NOT NULL DEFAULT current_timestamp(),
-  `Amount` decimal(10,2) NOT NULL
+  `payment_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `payment_method` varchar(100) DEFAULT NULL,
+  `payment_status` enum('Pending','Paid','Failed','Refunded') NOT NULL DEFAULT 'Pending',
+  `payment_date` datetime DEFAULT current_timestamp(),
+  `amount` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales reports`
+-- Table structure for table `sales_reports`
 --
 
-CREATE TABLE `sales reports` (
-  `Report_ID` int(11) NOT NULL,
-  `Generated_Date` datetime NOT NULL DEFAULT current_timestamp(),
-  `Total_Orders` int(11) NOT NULL,
-  `Total_Revenue` decimal(12,2) NOT NULL,
-  `Generated_By` varchar(255) NOT NULL
+CREATE TABLE `sales_reports` (
+  `report_id` int(11) NOT NULL,
+  `generated_date` datetime DEFAULT current_timestamp(),
+  `total_orders` int(11) DEFAULT NULL,
+  `total_revenue` decimal(12,2) DEFAULT NULL,
+  `generated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -118,14 +122,14 @@ CREATE TABLE `sales reports` (
 --
 
 CREATE TABLE `users` (
-  `User_ID` int(11) NOT NULL,
-  `User_Name` varchar(255) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Address` text NOT NULL,
-  `Contact_No` varchar(255) NOT NULL,
-  `Role` enum('Customer','Admin') NOT NULL,
-  `Date_Registered` date NOT NULL DEFAULT current_timestamp()
+  `user_id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` text DEFAULT NULL,
+  `contact_no` varchar(50) DEFAULT NULL,
+  `role` enum('customer','admin') NOT NULL DEFAULT 'customer',
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -136,48 +140,51 @@ CREATE TABLE `users` (
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`Feedback_ID`),
-  ADD UNIQUE KEY `UserID` (`User_ID`,`Order_ID`);
+  ADD PRIMARY KEY (`feedback_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
--- Indexes for table `items (inventory)`
+-- Indexes for table `items`
 --
-ALTER TABLE `items (inventory)`
-  ADD PRIMARY KEY (`Item_ID`);
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`item_id`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`Order_ID`),
-  ADD UNIQUE KEY `User_ID` (`User_ID`);
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `order_items`
+-- Indexes for table `order_details`
 --
-ALTER TABLE `order_items`
-  ADD PRIMARY KEY (`Order_Item_ID`),
-  ADD UNIQUE KEY `Order_Item_ID` (`Item_ID`,`Order_ID`) USING BTREE;
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`order_detail_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`Payment_ID`),
-  ADD UNIQUE KEY `Order_ID` (`Order_ID`);
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
--- Indexes for table `sales reports`
+-- Indexes for table `sales_reports`
 --
-ALTER TABLE `sales reports`
-  ADD PRIMARY KEY (`Report_ID`);
+ALTER TABLE `sales_reports`
+  ADD PRIMARY KEY (`report_id`),
+  ADD KEY `generated_by` (`generated_by`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`User_ID`),
-  ADD UNIQUE KEY `Email` (`Email`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -187,37 +194,79 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `Feedback_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `order_items`
+-- AUTO_INCREMENT for table `order_details`
 --
-ALTER TABLE `order_items`
-  MODIFY `Order_Item_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `order_details`
+  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `Payment_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sales reports`
+-- AUTO_INCREMENT for table `sales_reports`
 --
-ALTER TABLE `sales reports`
-  MODIFY `Report_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sales_reports`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `sales_reports`
+--
+ALTER TABLE `sales_reports`
+  ADD CONSTRAINT `sales_reports_ibfk_1` FOREIGN KEY (`generated_by`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
