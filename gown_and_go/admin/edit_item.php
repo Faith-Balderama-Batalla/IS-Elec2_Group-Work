@@ -116,60 +116,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <style>
   .main-container {max-width: 800px;}
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 600;
-    }
-    input[type=text],
-    input[type=number],
-    input[type=file],
-    textarea,
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 0.95rem;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .btn {
-      margin-top: 15px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .msg-error {
-      background: #ffe0e0;
-      color: #b30000;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .msg-success {
-      background: #e8ffe8;
-      color: #2d8a3d;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .preview-img {
-      margin-top: 8px;
-      width: 120px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
+  .msg-error {
+    background: #ffe0e0;
+    color: #b30000;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .msg-success {
+    background: #e8ffe8;
+    color: #2d8a3d;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .preview-img {
+    margin-top: 8px;
+    width: 120px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
 </style>
 </head>
+
 <body>
 
 <?php include 'inclusion/nav.php'; ?>

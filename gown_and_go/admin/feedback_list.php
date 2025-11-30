@@ -16,8 +16,10 @@ $fb = $conn->query("
 ?>
 <!DOCTYPE html>
 <html>
-
+<html lang="en">
+    
 <head>
+<meta charset="UTF-8">
     <title>Feedback List - Admin</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">

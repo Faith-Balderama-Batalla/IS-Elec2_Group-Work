@@ -78,62 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Add Item - GOWN&GO Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="inclusion/stylesheet.css">
+  <meta charset="UTF-8">
+  <title>Add Item - GOWN&GO Admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="inclusion/stylesheet.css">
 
-<style>
-    .main-container {
-      max-width: 700px;
-      margin: 30px auto 50px;
-      padding: 20px;
-      background: rgba(255,255,255,0.94);
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(183, 134, 154, 0.3);
-    }
-    h2 {
-      margin-top: 0;
-      font-family: 'Playfair Display', serif;
-      color: #d86ca1;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 600;
-    }
-    input[type=text],
-    input[type=number],
-    input[type=file],
-    textarea,
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 0.95rem;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .btn {
-      margin-top: 15px;
-      padding: 10px 16px;
-      background: #d86ca1;
-      color: #fff;
-      border-radius: 10px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .btn:hover { background: #b3548a; }
-
+  <style>
+    .main-container {max-width:800px; }
     .msg-error {
       background: #ffe0e0;
       color: #b30000;
@@ -150,52 +106,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin-bottom: 10px;
       text-align: center;
     }
-</style>
+  </style>
 </head>
+
 <body>
 
-<?php include 'inclusion/nav.php'; ?>
+  <?php include 'inclusion/nav.php'; ?>
 
-<main class="main-container">
-  <h2>Add New Item</h2>
+  <main class="main-container">
+    <h2>Add New Item</h2>
 
-  <?php if (!empty($error)): ?>
-    <div class="msg-error"><?php echo $error; ?></div>
-  <?php endif; ?>
+    <?php if (!empty($error)): ?>
+      <div class="msg-error"><?php echo $error; ?></div>
+    <?php endif; ?>
 
-  <?php if (!empty($success)): ?>
-    <div class="msg-success"><?php echo $success; ?></div>
-  <?php endif; ?>
+    <?php if (!empty($success)): ?>
+      <div class="msg-success"><?php echo $success; ?></div>
+    <?php endif; ?>
 
-  <form method="POST" enctype="multipart/form-data">
-    <label>Item Name *</label>
-    <input type="text" name="name" required value="<?php echo htmlspecialchars($name); ?>">
+    <form method="POST" enctype="multipart/form-data">
+      <label>Item Name *</label>
+      <input type="text" name="name" required value="<?php echo htmlspecialchars($name); ?>">
 
-    <label>Description</label>
-    <textarea name="description"><?php echo htmlspecialchars($description); ?></textarea>
+      <label>Description</label>
+      <textarea name="description"><?php echo htmlspecialchars($description); ?></textarea>
 
-    <label>Rental Price (₱)</label>
-    <input type="number" step="0.01" name="rental_price" value="<?php echo htmlspecialchars($rental_price); ?>">
+      <label>Rental Price (₱)</label>
+      <input type="number" step="0.01" name="rental_price" value="<?php echo htmlspecialchars($rental_price); ?>">
 
-    <label>Purchase Price (₱)</label>
-    <input type="number" step="0.01" name="purchase_price" value="<?php echo htmlspecialchars($purchase_price); ?>">
+      <label>Purchase Price (₱)</label>
+      <input type="number" step="0.01" name="purchase_price" value="<?php echo htmlspecialchars($purchase_price); ?>">
 
-    <label>Stock *</label>
-    <input type="number" name="stock" min="0" required value="<?php echo htmlspecialchars($stock); ?>">
+      <label>Stock *</label>
+      <input type="number" name="stock" min="0" required value="<?php echo htmlspecialchars($stock); ?>">
 
-    <label>Status</label>
-    <select name="status">
-      <option value="active" <?php echo ($status === 'inactive' ? '' : 'selected'); ?>>Active</option>
-      <option value="inactive" <?php echo ($status === 'inactive' ? 'selected' : ''); ?>>Inactive</option>
-    </select>
+      <label>Status</label>
+      <select name="status">
+        <option value="active" <?php echo ($status === 'inactive' ? '' : 'selected'); ?>>Active</option>
+        <option value="inactive" <?php echo ($status === 'inactive' ? 'selected' : ''); ?>>Inactive</option>
+      </select>
 
-    <label>Image</label>
-    <input type="file" name="image" accept="image/*">
+      <label>Image</label>
+      <input type="file" name="image" accept="image/*">
 
-    <button type="submit" class="btn">Save Item</button>
-  </form>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <button type="submit" class="btn">Save Item</button>
+    </form>
+  </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

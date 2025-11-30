@@ -39,6 +39,31 @@ body::before {
 }
 .nav-links a:hover { color: #d86ca1}
 
+/*=====================CARD STYLES===========================*/
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #999;
+}
+.card .value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #6b2b4a;
+  margin-top: 10px;
+}
+.card .sub {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
 /*=====================MAIN CONTAINER STYLES===========================*/
 .main-container {
       max-width: 1100px;
@@ -80,6 +105,7 @@ table {
 .btn {
       display: inline-block;
       padding: 6px 12px;
+      margin: 4px 2px;
       background: #d86ca1;
       color: #fff;
       border-radius: 8px;
@@ -88,3 +114,26 @@ table {
       font-weight: bold;
     }
 .btn:hover { background: #b3548a; }
+
+/*===============INPUT STYLES (for Item Editing)===================*/
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+input[type=text],
+input[type=number],
+input[type=file],
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
