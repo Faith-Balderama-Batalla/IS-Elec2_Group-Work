@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,20 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>Login - Gown&Go</title>
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+  <link rel="stylesheet" href="inclusion/stylesheet.css">
   
   <!-- ========================= Styling ========================= -->
   <style>
     * { box-sizing: border-box; }
-    body, html {
-      height: 100%;
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #6b2b4a;
-      position: relative;
-    }
     a { color: #d86ca1; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .container {
@@ -137,12 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     button.submit-btn:hover {
       background-color: #b3548a;
     }
-    .register-link {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #666;
-    }
 
     @media (max-width: 768px) {
       .container {
@@ -187,7 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           New user? <a href="register.php">Create an account</a>.
       </p>
 
-    <!-- ERROR MODAL -->
+
+    <!--ERROR MODAL (feature from bootstrap)-->
     <div class="modal fade" id="errorModal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -224,8 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js
-"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Show modal messages -->
     <?php

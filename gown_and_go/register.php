@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,128 +46,120 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Gown&Go</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="inclusion/stylesheet.css">
+
     <style>
-    * { box-sizing: border-box; }
-    body, html {
-      height: 100%;
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #6b2b4a;
-      position: relative;
-    }
-    a { color: #d86ca1; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container {
-      max-width: 900px;
-      height: 600px;
-      margin: 40px auto;
-      display: flex;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(183, 134, 154, 0.3);
-      background: rgba(245, 230, 240, 0.85);
-      overflow: hidden;
-    }
-    .left-panel {
-      flex: 1;
-      padding: 60px 50px;
-      background: rgba(216, 108, 161, 0.1);
-      color: #6b2b4a;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .left-panel h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.75rem;
-      font-weight: 700;
-      line-height: 1.1;
-      margin: 0;
-      color: #d86ca1;
-    }
-    .right-panel {
-      flex: 1;
-      padding: 60px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.9);
-    }
-    .right-panel h2 {
-      margin-top: 0;
-      margin-bottom: 8px;
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #6b2b4a;
-    }
-    .error-message {
-      color: #d9534f;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-    .success-message {
-      color: #5cb85c;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    textarea {
-      padding: 12px 15px;
-      font-size: 1rem;
-      border: 1.8px solid #ddd;
-      border-radius: 6px;
-      transition: border-color 0.3s;
-      resize: vertical;
-    }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus,
-    textarea:focus {
-      border-color: #d86ca1;
-      box-shadow: 0 0 6px rgba(216, 108, 161, 0.3);
-    }
-    button.submit-btn {
-      background-color: #d86ca1;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 12px;
-    }
-    button.submit-btn:hover {
-      background-color: #b3548a;
-    }
-    .login-link {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    @media (max-width: 768px) {
+      a { color: #d86ca1; text-decoration: none; }
+      a:hover { text-decoration: underline; }
       .container {
+        max-width: 900px;
+        height: 600px;
+        margin: 40px auto;
+        display: flex;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(183, 134, 154, 0.3);
+        background: rgba(245, 230, 240, 0.85);
+        overflow: hidden;
+      }
+      .left-panel {
+        flex: 1;
+        padding: 60px 50px;
+        background: rgba(216, 108, 161, 0.1);
+        color: #6b2b4a;
+        display: flex;
         flex-direction: column;
-        height: auto;
-        margin: 20px;
+        justify-content: center;
       }
-      .left-panel, .right-panel {
-        flex: none;
-        padding: 40px 30px;
+      .left-panel h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.75rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin: 0;
+        color: #d86ca1;
       }
-    }
-  </style>
+      .right-panel {
+        flex: 1;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.9);
+      }
+      .right-panel h2 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #6b2b4a;
+      }
+      .error-message {
+        color: #d9534f;
+        font-size: 0.9rem;
+        margin-bottom: 18px;
+      }
+      .success-message {
+        color: #5cb85c;
+        font-size: 0.9rem;
+        margin-bottom: 18px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      textarea {
+        padding: 12px 15px;
+        font-size: 1rem;
+        border: 1.8px solid #ddd;
+        border-radius: 6px;
+        transition: border-color 0.3s;
+        resize: vertical;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus,
+      textarea:focus {
+        border-color: #d86ca1;
+        box-shadow: 0 0 6px rgba(216, 108, 161, 0.3);
+      }
+      button.submit-btn {
+        background-color: #d86ca1;
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 12px;
+      }
+      button.submit-btn:hover {
+        background-color: #b3548a;
+      }
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          height: auto;
+          margin: 20px;
+        }
+        .left-panel, .right-panel {
+          flex: none;
+          padding: 40px 30px;
+        }
+      }
+    </style>
 </head>
 
 <body class="bg-light">

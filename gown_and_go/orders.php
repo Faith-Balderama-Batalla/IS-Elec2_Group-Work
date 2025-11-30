@@ -38,171 +38,121 @@ $result = $stmt->get_result();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My Orders - GOWN&GO</title>
+    <meta charset="UTF-8">
+    <title>My Orders - GOWN&GO</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="inclusion/stylesheet.css">
 
-<style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #6b2b4a;
-    }
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(245,230,240,0.35);
-        z-index: -1;
-    }
+    <style>
 
-    .topbar {
-        background: rgba(255,255,255,0.9);
-        padding: 15px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+        h2 {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            color: #d86ca1;
+        }
 
-    .logo {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.7rem;
-        font-weight: 700;
-        color: #d86ca1;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 20px;
+        }
+        th {
+            background: #f9e6f1;
+            padding: 10px;
+            text-align: left;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
 
-    .topbar a {
-        margin-left: 15px;
-        color: #6b2b4a;
-        text-decoration: none;
-        font-weight: 600;
-    }
+        .btn {
+            padding: 6px 12px;
+            background: #d86ca1;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 3px 0;
+        }
+        .btn:hover {
+            background: #b3548a;
+        }
 
-    .main-box {
-        max-width: 1000px;
-        margin: 40px auto;
-        background: rgba(255,255,255,0.92);
-        padding: 25px;
-        border-radius: 14px;
-        box-shadow: 0 4px 20px rgba(183,134,154,0.4);
-    }
-
-    h2 {
-        text-align: center;
-        font-family: 'Playfair Display', serif;
-        color: #d86ca1;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.95rem;
-        margin-top: 20px;
-    }
-    th {
-        background: #f9e6f1;
-        padding: 10px;
-        text-align: left;
-    }
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .btn {
-        padding: 6px 12px;
-        background: #d86ca1;
-        border-radius: 8px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-        display: inline-block;
-        margin: 3px 0;
-    }
-    .btn:hover {
-        background: #b3548a;
-    }
-
-</style>
+    </style>
 </head>
 
 <body>
 
-<header class="topbar">
-    <div class="logo">GOWN&GO</div>
-    <div>
-        <a href="client_home.php">Shop</a>
-        <a href="cart.php">Cart</a>
-        <a href="logout.php">Logout</a>
-    </div>
-</header>
+    <?php include 'inclusion/nav.php'; ?>
 
-<div class="main-box">
+    <div class="main-container">
 
-<h2>My Orders</h2>
+    <h2>My Orders</h2>
 
-<?php if ($result->num_rows === 0): ?>
-    <p>You have no orders yet.</p>
+    <?php if ($result->num_rows === 0): ?>
+        <p>You have no orders yet.</p>
 
-<?php else: ?>
+    <?php else: ?>
 
-<table>
-    <tr>
-        <th>Order #</th>
-        <th>Date</th>
-        <th>Items</th>
-        <th>Status</th>
-        <th>Total (₱)</th>
-        <th>Invoice</th>
-        <th>Feedback</th>
-    </tr>
+    <table>
+        <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Status</th>
+            <th>Total (₱)</th>
+            <th>Invoice</th>
+            <th>Feedback</th>
+        </tr>
 
-    <?php while ($row = $result->fetch_assoc()): ?>
-    <tr>
-        <td>#<?php echo $row['order_id']; ?></td>
-        <td><?php echo $row['order_date']; ?></td>
-        <td><?php echo $row['items']; ?></td>
-        <td><?php echo $row['order_status']; ?></td>
-        <td>₱<?php echo number_format($row['total_amount'], 2); ?></td>
+        <?php while ($row = $result->fetch_assoc()): ?>
+        <tr>
+            <td>#<?php echo $row['order_id']; ?></td>
+            <td><?php echo $row['order_date']; ?></td>
+            <td><?php echo $row['items']; ?></td>
+            <td><?php echo $row['order_status']; ?></td>
+            <td>₱<?php echo number_format($row['total_amount'], 2); ?></td>
 
-        <!-- Invoice Button -->
-        <td>
-            <a class="btn" href="invoice.php?order_id=<?php echo $row['order_id']; ?>">View</a>
-        </td>
+            <!-- Invoice Button -->
+            <td>
+                <a class="btn" href="invoice.php?order_id=<?php echo $row['order_id']; ?>">View</a>
+            </td>
 
-        <!-- Feedback Button -->
-        <td>
-            <?php
-            if ($row['order_status'] === "Completed") {
+            <!-- Feedback Button -->
+            <td>
+                <?php
+                if ($row['order_status'] === "Completed") {
 
-                // Check if feedback already exists
-                $check_fb = $conn->prepare("SELECT feedback_id FROM feedback WHERE order_id = ?");
-                $check_fb->bind_param("i", $row['order_id']);
-                $check_fb->execute();
-                $fb_res = $check_fb->get_result();
+                    // Check if feedback already exists
+                    $check_fb = $conn->prepare("SELECT feedback_id FROM feedback WHERE order_id = ?");
+                    $check_fb->bind_param("i", $row['order_id']);
+                    $check_fb->execute();
+                    $fb_res = $check_fb->get_result();
 
-                if ($fb_res->num_rows === 0) {
-                    echo '<a class="btn" href="feedback.php?order_id=' . $row['order_id'] . '">Leave Feedback</a>';
+                    if ($fb_res->num_rows === 0) {
+                        echo '<a class="btn" href="feedback.php?order_id=' . $row['order_id'] . '">Feedback</a>';
+                    } else {
+                        echo '<span style="color:green; font-weight:bold;">Submitted</span>';
+                    }
                 } else {
-                    echo '<span style="color:green; font-weight:bold;">Submitted</span>';
+                    echo '<span style="color:#888;">Unavailable</span>';
                 }
-            } else {
-                echo '<span style="color:#888;">Unavailable</span>';
-            }
-            ?>
-        </td>
-    </tr>
-    <?php endwhile; ?>
+                ?>
+            </td>
+        </tr>
+        <?php endwhile; ?>
 
-</table>
+    </table>
 
-<?php endif; ?>
+    <?php endif; ?>
 
-</div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -100,11 +100,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     textarea, select {
         width: 100%;
-        padding: 10px;
+        padding: 8px;
         border-radius: 10px;
         border: 1px solid #ccc;
         margin-top: 10px;
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+    textarea {
+        height: 120px;
+        resize: vertical;
     }
     .btn {
         margin-top: 15px;

@@ -1,0 +1,54 @@
+* {box-sizing: border-box;}
+/*===============BODY STYLES=================*/      
+html, body {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #6b2b4a;
+    line-height: 1.6;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: rgba(245, 230, 240, 0.04);
+    z-index: -1;
+}
+
+/*=====================NAVBAR STYLES===========================*/
+.topbar {
+    background: rgba(255,255,255,0.9);
+    padding: 12px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+.logo {
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #d86ca1;
+}
+.nav-links a {
+    margin-left: 20px;
+    color: #6b2b4a;
+    text-decoration: none;
+    font-weight: 600;
+}
+.nav-links a:hover { color: #d86ca1}
+
+    .main-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: rgba(255,255,255,0.92);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(183,134,154,0.4);
+    }

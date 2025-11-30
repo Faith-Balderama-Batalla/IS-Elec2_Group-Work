@@ -234,28 +234,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
     }
     .btn:hover { background: #b3548a; }
 
+    textarea,select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
     textarea {
-        width: 100%;
-        height: 80px;
-        margin-top: 8px;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #aaa;
+      resize: vertical;
+      min-height: 80px;
     }
 </style>
 </head>
 
 <body>
-
-<header class="topbar">
-    <div class="logo">GOWN&GO</div>
-    <div>
-        <a href="client_home.php">Shop</a>
-        <a href="cart.php">Cart</a>
-        <a href="orders.php">Orders</a>
-        <a href="logout.php">Logout</a>
-    </div>
-</header>
 
 <div class="main-box">
 
@@ -312,6 +306,7 @@ foreach ($cart as $item_id => $data):
 
     <br><br>
     <button type="submit" name="place_order" class="btn">Place Order</button>
+    <button type="button" class="btn" style="background:#aaa;" onclick="window.location.href='cart.php'">Cancel</button>
 </form>
 
 </div>

@@ -33,56 +33,14 @@ if (!empty($cart)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My Cart - GOWN&GO</title>
+    <meta charset="UTF-8">
+    <title>My Cart - GOWN&GO</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="inclusion/stylesheet.css">
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #6b2b4a;
-    }
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(245,230,240,0.35);
-        z-index: -1;
-    }
-    .topbar {
-        background: rgba(255,255,255,0.9);
-        padding: 15px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .logo {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.7rem;
-        font-weight: 700;
-        color: #d86ca1;
-    }
-    .topbar a {
-        margin-left: 15px;
-        color: #6b2b4a;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .main-container {
-        max-width: 900px;
-        margin: 40px auto;
-        background: rgba(255,255,255,0.92);
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(183,134,154,0.4);
-    }
-
     table {
         width: 100%;
         border-collapse: collapse;
@@ -123,14 +81,7 @@ if (!empty($cart)) {
 
 <body>
 
-<header class="topbar">
-    <div class="logo">GOWN&GO</div>
-    <div>
-        <a href="client_home.php">Shop</a>
-        <a href="orders.php">Orders</a>
-        <a href="logout.php">Logout</a>
-    </div>
-</header>
+    <?php include 'inclusion/nav.php'; ?>
 
 <div class="main-container">
     <h2>My Cart</h2>
@@ -191,5 +142,6 @@ if (!empty($cart)) {
     <?php endif; ?>
 </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
