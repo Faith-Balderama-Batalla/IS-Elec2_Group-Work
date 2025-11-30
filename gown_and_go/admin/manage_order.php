@@ -32,77 +32,78 @@ if (!empty($params)) {
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Manage Orders - Admin</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="inclusion/stylesheet.css">
+    <meta charset="UTF-8">
+    <title>Manage Orders - Admin</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="inclusion/stylesheet.css">
 
-<style>
-    .badge {
-        padding: 3px 7px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-    }
-    .completed { background: #d4f8d4; color: green; }
-    .pending { background: #ffe6a1; color: #9a6400; }
-</style>
+    <style>
+        .badge {
+            padding: 3px 7px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .completed { background: #d4f8d4; color: green; }
+        .pending { background: #ffe6a1; color: #9a6400; }
+    </style>
 </head>
 
 <body>
 
-<?php include 'inclusion/nav.php'; ?>
+    <?php include 'inclusion/nav.php'; ?>
 
-<div class="main-container">
+    <div class="main-container">
 
-<h2>Manage Orders</h2>
+        <h2>Manage Orders</h2>
+            
+        <table>
+            <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Total (₱)</th>
+                <th>Action</th>
+            </tr>
+            
+            <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td>#<?php echo $row['order_id']; ?></td>
+                <td><?php echo $row['username']; ?></td>
+                <td><?php echo $row['order_date']; ?></td>
+                <td><?php echo $row['items']; ?></td>
+            
+                <td>
+                    <?php if ($row['order_status'] === "Completed"): ?>
+                        <span class="badge completed">Completed</span>
+                    <?php else: ?>
+                        <span class="badge pending"><?php echo $row['order_status']; ?></span>
+                    <?php endif; ?>
+                </td>
+                    
+                <td>₱<?php echo number_format($row['total_amount'], 2); ?></td>
+                    
+                <td>
+                    <?php if ($row['order_status'] !== "Completed"): ?>
+                        <a class="btn" href="complete_order.php?id=<?php echo $row['order_id']; ?>">
+                            Complete
+                        </a>
+                    <?php else: ?>
+                        <span style="color:green; font-weight:bold;">Done</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
 
-<table>
-    <tr>
-        <th>Order</th>
-        <th>Customer</th>
-        <th>Date</th>
-        <th>Items</th>
-        <th>Status</th>
-        <th>Total (₱)</th>
-        <th>Action</th>
-    </tr>
-
-    <?php while ($row = $result->fetch_assoc()): ?>
-    <tr>
-        <td>#<?php echo $row['order_id']; ?></td>
-        <td><?php echo $row['username']; ?></td>
-        <td><?php echo $row['order_date']; ?></td>
-        <td><?php echo $row['items']; ?></td>
-
-        <td>
-            <?php if ($row['order_status'] === "Completed"): ?>
-                <span class="badge completed">Completed</span>
-            <?php else: ?>
-                <span class="badge pending"><?php echo $row['order_status']; ?></span>
-            <?php endif; ?>
-        </td>
-
-        <td>₱<?php echo number_format($row['total_amount'], 2); ?></td>
-
-        <td>
-            <?php if ($row['order_status'] !== "Completed"): ?>
-                <a class="btn" href="complete_order.php?id=<?php echo $row['order_id']; ?>">
-                    Complete
-                </a>
-            <?php else: ?>
-                <span style="color:green; font-weight:bold;">Done</span>
-            <?php endif; ?>
-        </td>
-    </tr>
-    <?php endwhile; ?>
-</table>
-
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
