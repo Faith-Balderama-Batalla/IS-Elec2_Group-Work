@@ -1,0 +1,90 @@
+* {box-sizing: border-box;}
+/*=====================BODY STYLES===========================*/
+body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center fixed;
+        background-size: cover;
+        color: #6b2b4a;
+    }
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(245,230,240,0.4);
+    z-index: -1;
+}
+
+/*=====================NAVBAR STYLES===========================*/
+.topbar {
+    background: rgba(255,255,255,0.9);
+    padding: 12px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+.logo {
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #d86ca1;
+}
+.nav-links a {
+    margin-left: 20px;
+    color: #6b2b4a;
+    text-decoration: none;
+    font-weight: 600;
+}
+.nav-links a:hover { color: #d86ca1}
+
+/*=====================MAIN CONTAINER STYLES===========================*/
+.main-container {
+      max-width: 1100px;
+      margin: 30px auto 50px;
+      padding: 20px;
+      background: rgba(255,255,255,0.94);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(183, 134, 154, 0.3);
+    }
+.grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+}  
+
+/*=====================TEXT STYLES===========================*/
+h2 {
+        text-align: center;
+        font-family: 'Playfair Display', serif;
+        color: #d86ca1;
+        margin-bottom: 15px;
+    }
+
+/*=====================TABLE STYLES===========================*/
+table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+    }
+    th {background: #f9e6f1;}
+
+/*=====================BUTTON STYLES===========================*/
+.btn {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #d86ca1;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+.btn:hover { background: #b3548a; }
