@@ -126,8 +126,7 @@ $imagePath = (!empty($item['image']))
     <h1>GOWN&GO</h1>
 
     <nav>
-        <a href="index.php">Home</a>
-        <a href="shop.php">Shop</a>
+        <a href="shop.php">Back</a>
 
         <?php if (isset($_SESSION['user_id'])): ?>
             <?php if ($_SESSION['role'] === 'admin'): ?>
