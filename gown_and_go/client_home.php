@@ -11,7 +11,7 @@ $items_q = mysqli_query($conn, "
 
 // Handle Add to Cart
 $message = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'], $_POST['item_id'], $_POST['quantity'])) {
 
     if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
         header("Location: login.php");
@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     }
 
     $item_id = (int) $_POST['item_id'];
-    $order_type = $_POST['order_type'];
+    // ✅ FIXED LINE (prevents undefined order_type warning)
+    $order_type = isset($_POST['order_type']) ? $_POST['order_type'] : 'Purchase';
     $quantity = max(1, (int) $_POST['quantity']);
 
     if (!isset($_SESSION['cart'])) {
@@ -107,14 +108,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     .add-btn:hover {
         background: #b3548a;
     }
+
     .view-link {
-    display: inline-block;
-    margin-top: 4px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    color: #d86ca1;
-    font-weight: 600;
-}
+        display: inline-block;
+        margin-top: 4px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        color: #d86ca1;
+        font-weight: 600;
+    }
 </style>
 </head>
 
@@ -144,11 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             <strong>Rental:</strong> ₱<?php echo number_format($item['rental_price'], 2); ?><br>
             <strong>Purchase:</strong> ₱<?php echo number_format($item['purchase_price'], 2); ?>
         </p>
+
+        <!-- ✅ FIXED VIEW LINK -->
         <a class="view-link" href="view_item.php?id=<?php echo $item['item_id']; ?>">View details →</a>
 
-
         <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="login.php" style="color:#d86ca1;">Login to order</a>
+            <br><a href="login.php" style="color:#d86ca1;">Login to order</a>
         <?php else: ?>
 
         <form method="POST">
@@ -170,6 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 <?php endwhile; ?>
 
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

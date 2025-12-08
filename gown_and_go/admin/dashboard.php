@@ -143,11 +143,14 @@ h2.section-title {
 <td><?= htmlspecialchars($r['item_name']) ?></td>
 <td><?= htmlspecialchars($r['username']) ?></td>
 <td>
-<?php if($r['return_status']=="Returned"): ?>
-<span class="status-returned">Returned</span>
+
+<?php if($r['return_status'] === "Returned"): ?>
+    <span class="status-returned">Returned</span>
 <?php else: ?>
-<span class="status-not-returned">Not Returned</span>
+    <span class="status-not-returned">Not Returned</span>
 <?php endif; ?>
+
+
 </td>
 <td>
 <?php if($r['return_status']=="Not Returned"): ?>
@@ -176,5 +179,6 @@ onclick="return confirm('Mark this rental as returned?')">Mark Returned</a>
 </table>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
