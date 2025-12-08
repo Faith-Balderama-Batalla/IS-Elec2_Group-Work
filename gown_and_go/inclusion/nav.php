@@ -12,6 +12,9 @@
           <a class="nav-link" href="client_home.php">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="user.php">My Account</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="cart.php">My Cart</a>
         </li>
         <li class="nav-item">

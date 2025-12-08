@@ -38,47 +38,10 @@ $imagePath = (!empty($item['image']))
 <title><?php echo htmlspecialchars($item['name']); ?> - GOWN&GO</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="inclusion/stylesheet.css">
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #6b2b4a;
-        position: relative;
-    }
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(245, 230, 240, 0.35);
-        z-index: -1;
-    }
-
-    header {
-        background: rgba(255,255,255,0.9);
-        padding: 20px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    header h1 {
-        margin: 0;
-        font-family: 'Playfair Display', serif;
-        color: #d86ca1;
-    }
-    nav a {
-        margin-left: 20px;
-        color: #6b2b4a;
-        font-weight: 600;
-        text-decoration: none;
-    }
-    nav a:hover {
-        color: #d86ca1;
-    }
-
     .item-container {
         max-width: 1000px;
         margin: 40px auto;
@@ -121,26 +84,7 @@ $imagePath = (!empty($item['image']))
 </style>
 </head>
 <body>
-
-<header>
-    <h1>GOWN&GO</h1>
-
-    <nav>
-        <a href="shop.php">Back</a>
-
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <?php if ($_SESSION['role'] === 'admin'): ?>
-                <a href="admin/dashboard.php">Admin Panel</a>
-            <?php else: ?>
-                <a href="client_home.php">Client Home</a>
-            <?php endif; ?>
-            <a href="logout.php" style="color:#b3548a;">Logout</a>
-        <?php else: ?>
-            <a href="login.php">Login</a>
-            <a href="register.php">Register</a>
-        <?php endif; ?>
-    </nav>
-</header>
+    <?php include 'inclusion/nav.php'; ?>
 
 <div class="item-container">
 
@@ -185,6 +129,7 @@ $imagePath = (!empty($item['image']))
 
     </div>
 </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
