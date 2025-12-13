@@ -23,7 +23,7 @@ $user = $stmt->get_result()->fetch_assoc();
 
 /* =========================
    FETCH RECENT ORDERS
-========================= */
+
 $orders = $conn->query("
     SELECT o.order_id, o.order_date, o.order_status, o.total_amount,
            od.order_type, od.return_status,
@@ -35,6 +35,25 @@ $orders = $conn->query("
     ORDER BY o.order_date DESC
     LIMIT 5
 ");
+========================= */
+$orders = $conn->query("
+    SELECT 
+        o.order_id,
+        MAX(od.order_type) AS order_type,
+        MAX(od.return_status) AS return_status,
+        o.order_status,
+        o.total_amount,
+        o.order_date,
+        GROUP_CONCAT(i.name SEPARATOR ', ') AS item_names
+    FROM orders o
+    JOIN order_details od ON o.order_id = od.order_id
+    JOIN items i ON od.item_id = i.item_id
+    LEFT JOIN payments p ON o.order_id = p.order_id
+    WHERE o.user_id = {$_SESSION['user_id']}
+    GROUP BY o.order_id
+    ORDER BY o.order_date DESC
+");
+
 
 /* =========================
    FETCH USER FEEDBACK
@@ -117,11 +136,11 @@ $feedbacks = $conn->query("
 <tr>
     <th>Order #</th>
     <th>Type</th>
-    <th>Payment</th>
     <th>Return Status</th>
     <th>Status</th>
     <th>Total (₱)</th>
     <th>Date</th>
+    <th>Items</th>
 </tr>
 </thead>
 <tbody>
@@ -131,7 +150,7 @@ $feedbacks = $conn->query("
 <?php else: ?>
 <?php while($o = $orders->fetch_assoc()): ?>
 <tr>
-    <td>#<?php echo $o['order_id']; ?></td>
+    <!--<td>#<?php echo $o['order_id']; ?></td>
     <td><?php echo $o['order_type']; ?></td>
     <td><?php echo $o['payment_status'] ?? 'Unpaid'; ?></td>
     <td>
@@ -146,7 +165,18 @@ $feedbacks = $conn->query("
     <td><?php echo $o['order_status']; ?></td>
     <td><?php echo number_format($o['total_amount'], 2); ?></td>
     <td><?php echo $o['order_date']; ?></td>
+        -->
+    <td>#<?= $o['order_id']; ?></td>
+<td><?= $o['order_type']; ?></td>
+<td><?= $o['order_type'] === 'Rental' ? $o['return_status'] : 'N/A'; ?></td>
+<td><?= $o['order_status']; ?></td>
+<td><?= number_format($o['total_amount'],2); ?></td>
+<td><?= $o['order_date']; ?></td>
+<td><?= htmlspecialchars($o['item_names']); ?></td>
+
 </tr>
+
+
 <?php endwhile; ?>
 <?php endif; ?>
 

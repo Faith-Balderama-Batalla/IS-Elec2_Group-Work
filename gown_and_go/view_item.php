@@ -115,11 +115,20 @@ $imagePath = (!empty($item['image']))
         <?php elseif ($_SESSION['role'] === 'customer'): ?>
 
             <form method="POST" action="client_home.php" style="margin-top:20px;">
-                <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                <input type="number" name="quantity" min="1" max="<?php echo $item['stock']; ?>" value="1"
-                       style="padding:8px; width:60px; border-radius:8px; border:1px solid #ccc;">
-                <button class="cta" type="submit" name="add_to_cart">Add to Cart</button>
-            </form>
+    <input type="hidden" name="item_id" value="<?= $item['item_id']; ?>">
+
+    <select name="order_type" required
+        style="padding:8px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px;">
+        <option value="Purchase">Purchase</option>
+        <option value="Rental">Rental</option>
+    </select><br>
+
+    <input type="number" name="quantity" min="1" max="<?= $item['stock']; ?>" value="1"
+        style="padding:8px; width:70px; border-radius:8px; border:1px solid #ccc;">
+
+    <button class="cta" type="submit" name="add_to_cart">Add to Cart</button>
+</form>
+
 
         <?php else: ?>
 
